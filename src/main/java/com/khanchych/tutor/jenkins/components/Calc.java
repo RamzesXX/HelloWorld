@@ -1,11 +1,9 @@
 package com.khanchych.tutor.jenkins.components;
 
-public class Calc {
-    public int add(int a, int b) {
-        return (a + b);
-    }
+import lombok.Data;
 
-    public int sub(int a, int b) {
-        return (a - b);
-    }
+@Data
+public class Calc {
+    private String someStringValue;
+    private Integer someIntegerValue;
 }
