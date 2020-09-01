@@ -1,0 +1,32 @@
+-XX:+OmitStackTraceInFastThrow 									\
+-XX:-StackTraceInThrowable 	
+
+JProfiler + JVM in Docker
+
+docker run -it --rm 		\
+	 -v $PWD/pluggable:/app	\
+	 -p 8082:8080  			\
+	 -p 5005:5005  			\
+	 openjdk:8				\
+	 /bin/bash
+
+
+Metrics:
+
+
+We have ~47k log records with empty stack trace for enrollUser and syncSectionToOLR ( splunk: index=wa_prod*domain*  class="com.cengage.wa.services.rest.exception.ServiceResponseExceptionHandler" exception.type=java.lang.NullPointerException "{\"exception\":{\"stacktrace\":[]") in august 2020.
+To test performance when we omit stack trace generation we run the JVM with "-XX:+OmitStackTraceInFastThrow -XX:-StackTraceInThrowable" options in turn to test performance when we generate stack trace generation	we use "-XX:-OmitStackTraceInFastThrow -XX:+StackTraceInThrowable" 
+
+Metric                                      generate stack trace    do not generate stack trace
+Controller's method 1000 calls
+    - Sequential calls (nsec)                   541_414_157              264_956_411
+    - memory allocation                              123MB               32.4MB
+Controller's method 10000 calls
+    - Sequential calls (nsec)                   4_983_660_072            2_139_201_545
+    - memory allocation                              1,156MB               244MB
+
+
+    DOMAIN
+Controller's method 1000 calls
+    - Sequential calls (nsec)                   541_414_157              264_956_411
+    - memory allocation (MB)                           1874               32.4MB

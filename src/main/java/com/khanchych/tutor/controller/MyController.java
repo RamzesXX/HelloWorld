@@ -16,6 +16,8 @@ public class MyController implements RestApplicationApi {
     @Override
     @GetMapping("{value}")
     public void test(@PathVariable String value) {
+//        MDC.put("start", String.valueOf(System.nanoTime()));
         performanceService.test(value);
     }
+ 
 }
