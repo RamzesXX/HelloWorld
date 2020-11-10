@@ -1,4 +1,4 @@
-package com.khanchych.tutor.jenkins;
+package com.khanchych.tutor;
 
 public class App {
     public static void main(String[] args) {
